@@ -43,7 +43,7 @@ GRAPH_STRING ....                                                               
 Only the ID is significant, causing the daemon to tear down the resources it allocates
 for ID.
 
-6 - Error (EROR)
+6 - Error (EROR)  
 ----+------------  
 ....|ERROR_STR...  
 ----+------------  
