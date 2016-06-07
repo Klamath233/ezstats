@@ -1,0 +1,57 @@
+This document specifies the format of the packets used to pass data between
+clients and the daemon.
+
+GENERAL PACKET FORMAT
+---------------------
++----+----+----+----+--
+|TYPE| ID | PAYLOAD ....
++----+----+----+----+--
+Note: each box is 4 bytes.
+
+TYPE CODES
+----------
+0 - Initialization Request (IREQ)
+The client sends an intialization packet in order to instruct the daemon to
+prepare for subsequent data feeds. All other attributes in the packet are
+insignificant.
+
+1 - Initialization Response (IRES)
+The ID field is the ID that the daemon allocates for the clients. All
+subsequent communications have to carry this ID in order for the
+daemon to function correctly.
+
+2 - Data Feed (DATA)
+The first 8 bytes are for the X variable, the second 8 bytes are for the
+Y variable (both encoded as double).
+----+----+----+----+----+
+....|    X    |    Y    |
+----+----+----+---------+
+
+3 - Stats Request (SREQ)
+Ask the daemon to return a summary of the data. Only the ID attribute is
+significant in this type of packet.
+
+4 - Stats Response (SRES)
+The response to an SREQ packet.
+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+....|  AVG_X  |  AVG_Y  |  VAR_X  |  VAR_Y  |  MIN_X  |  MIN_Y  |  MAX_X  |  MAX_Y  |
+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+GRAPH_STRING ....                                                                   |
+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+
+5 - Teardown (TEAR)
+Only the ID is significant, causing the daemon to tear down the resources it allocates
+for ID.
+
+6 - Error (EROR)
+----+------------
+....|ERROR_STR...
+----+------------
+The payload will be a string explaining the error.
+
+7 - Success (SUCC)
+----+--------------
+....|SUCCESS_STR...
+----+--------------
+A response to DATA and TEAR indicating success.
+
