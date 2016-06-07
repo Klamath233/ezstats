@@ -1,5 +1,10 @@
 # ezstats
 
+### Dependencies
+##### Mac OS X
+`brew install gnuplot`
+##### Linux
+`apt-get install gnuplot`
 ### AF_UNIX Address
 /tmp/statsd_server.sock
 
